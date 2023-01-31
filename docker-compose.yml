@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  postgres:
+    container_name: node-postgres
+    image: postgres
+    ports:
+      - '5430:5432'
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /data/postgres
+    volumes:
+      - 'postgres:/var/lib/postgresql/data'
+
+volumes:
+  postgres:
