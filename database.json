@@ -3,7 +3,7 @@
         "driver": "pg",
         "host": "127.0.0.1",
         "port": "5430",
-        "database": "book-service-test",
+        "database": "store-front-test",
         "user": "postgres",
         "password": "postgres"
     },
@@ -11,7 +11,7 @@
         "driver": "pg",
         "host": "127.0.0.1",
         "port": "5430",
-        "database": "book-service",
+        "database": "store-front",
         "user": "postgres",
         "password": "postgres"
     }
