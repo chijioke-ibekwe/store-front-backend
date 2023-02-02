@@ -1,9 +1,14 @@
 import Client from '../database';
 
+enum ProductCategory {
+    TECHNOLOGY, CLOTHING, STATIONARY, FOOD_ITEM
+}
+
 export type Product = {
     id?: number;
     name: string;
     price: number;
+    category: ProductCategory;
 }
 
 export class ProductStore {
