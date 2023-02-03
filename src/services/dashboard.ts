@@ -1,18 +1,19 @@
 import Client from '../database';
+import { Product } from '../models/product';
 
 export class DashboardQueries {
 
-    async getAllUsersWithOrders(): Promise<{id: number, first_name: string, last_name: string, username: string}[]> {
+    async topFiveMostPopularProducts(): Promise<Product[]> {
         try {
             const conn = await Client.connect();
-            const sql = 'SELECT DISTINCT u.id, u.first_name, u.last_name, u.username FROM users u JOIN orders o ON u.id = o.user_id';
+            const sql = 'SELECT p.id, p.name, p.price, p.category, COUNT(o.id) as number_of_orders FROM products p JOIN orders_products op ON ' + 
+            'op.product_id = p.id JOIN orders o ON op.order_id = o.id GROUP BY p.id ORDER BY number_of_orders DESC LIMIT 5';
 
             const result = await conn.query(sql);
-            const users = result.rows;
             conn.release();
-            return users;
+            return result.rows;
         } catch (error) {
-            throw new Error(`Cannot fetch users with orders: ${error}`);
+            throw new Error(`Cannot fetch most popular products: ${error}`);
         }
     }
 }

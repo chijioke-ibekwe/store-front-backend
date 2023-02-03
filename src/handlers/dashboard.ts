@@ -1,13 +1,12 @@
 import express, { Request, Response } from 'express';
 import { DashboardQueries } from '../services/dashboard';
-import verifyAuthToken from './token_verifier';
 
 const dashboard = new DashboardQueries();
 
-const findUsersWithOrders = async (_req: Request, res: Response) => {
+const topFiveMostPopularProducts = async (_req: Request, res: Response) => {
     try{
-        const users = await dashboard.getAllUsersWithOrders();
-        res.json(users);
+        const products = await dashboard.topFiveMostPopularProducts();
+        res.json(products);
     } catch (error){
         res.status(500);
         res.json(error);
@@ -16,7 +15,7 @@ const findUsersWithOrders = async (_req: Request, res: Response) => {
 }
 
 const dashboard_routes = (app: express.Application) => {
-    app.get('/orders/users', verifyAuthToken, findUsersWithOrders);
+    app.get('/product/most-popular', topFiveMostPopularProducts);
 }
 
 export default dashboard_routes;

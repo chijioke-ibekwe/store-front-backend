@@ -4,8 +4,13 @@ import { User, UserStore } from '../models/user';
 const userStore = new UserStore();
 
 const index = async (_req: Request, res: Response) => {
-    const users : User[] = await userStore.findAll();
-    res.json(users);
+    try {
+        const users = await userStore.findAll();
+        res.json(users);
+    } catch (error) {
+        res.status(500);
+        res.json(error);
+    }
 }
 
 const create = async (req: Request, res: Response) => {

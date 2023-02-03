@@ -49,17 +49,6 @@ const create = async (req: Request, res: Response) => {
 
 }
 
-const findUsersWithOrders = async (_req: Request, res: Response) => {
-    try{
-        const users = await dashboard.getAllUsersWithOrders();
-        res.json(users);
-    } catch (error){
-        res.status(500);
-        res.json(error);
-    }
-
-}
-
 const addProduct = async (req: Request, res: Response) => {
     try{
         const dto: AddProductDTO = {
@@ -79,7 +68,6 @@ const addProduct = async (req: Request, res: Response) => {
 
 const order_routes = (app: express.Application) => {
     app.get('/orders', verifyAuthToken, index);
-    app.get('/orders/users', findUsersWithOrders);
     app.post('/orders', verifyAuthToken, create);
     app.post('/orders/:orderId/products', verifyAuthToken, addProduct);
 }

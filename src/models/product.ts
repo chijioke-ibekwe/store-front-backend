@@ -1,6 +1,6 @@
 import Client from '../database';
 
-enum ProductCategory {
+export enum ProductCategory {
     TECHNOLOGY, CLOTHING, STATIONARY, FOOD_ITEM
 }
 
@@ -24,31 +24,41 @@ export class ProductStore {
         }
     }
 
+    async findById(id: number): Promise<Product> {
+        try {
+            const conn = await Client.connect();
+            const sql = 'SELECT * FROM products WHERE id = ($1)';
+            const result = await conn.query(sql, [id]);
+            conn.release();
+            return result.rows[0];
+        } catch (error) {
+            throw new Error(`Cannot get product with id ${id}: ${error}`);
+        }
+    }
+
     async save(product: Product): Promise<Product> {
         try {
             const conn = await Client.connect();
-            const sql = 'INSERT INTO products (name, price) VALUES ($1, $2) RETURNING *';
+            const sql = 'INSERT INTO products (name, price, category) VALUES ($1, $2, $3) RETURNING *';
 
-            const result = await conn.query(sql, [product.name, product.price]);
-            const savedProduct = result.rows[0];
+            const result = await conn.query(sql, [product.name, product.price, product.category]);
             conn.release();
-            console.log(savedProduct);
-            return savedProduct;
+            return result.rows[0];;
         } catch (error) {
             throw new Error(`Cannot add product: ${error}`);
         }
     }
 
-    async findMostExpensiveProducts(): Promise<Product[]> {
+    async findByCategory(category: ProductCategory): Promise<Product[]> {
         try {
             const conn = await Client.connect();
-            const sql = 'SELECT * FROM products ORDER BY price DESC LIMIT 5';
+            const sql = 'SELECT * FROM products WHERE category = ($1)';
 
-            const result = await conn.query(sql);
+            const result = await conn.query(sql, [category]);
             conn.release();
             return result.rows;
         } catch (error) {
-            throw new Error(`Cannot fetch most expensive products: ${error}`);
+            throw new Error(`Cannot fetch products by category ${category}: ${error}`);
         }
     }
 }

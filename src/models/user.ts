@@ -16,7 +16,7 @@ export type User = {
 }
 
 export class UserStore {
-    async findAll(): Promise<User[]> {
+    async findAll(): Promise<{id: number, first_name: string, last_name: string, username: string}[]> {
         try {
             const conn = await Client.connect();
             const sql = 'SELECT * FROM users';
@@ -25,6 +25,18 @@ export class UserStore {
             return result.rows;
         } catch (error) {
             throw new Error(`Cannot get users: ${error}`);
+        }
+    }
+
+    async findById(id: number): Promise<{id: number, first_name: string, last_name: string, username: string}> {
+        try {
+            const conn = await Client.connect();
+            const sql = 'SELECT * FROM products WHERE id = ($1)';
+            const result = await conn.query(sql, [id]);
+            conn.release();
+            return result.rows[0];
+        } catch (error) {
+            throw new Error(`Cannot get user with id ${id}: ${error}`);
         }
     }
 
@@ -39,12 +51,10 @@ export class UserStore {
              );
 
             const result = await conn.query(sql, [user.first_name, user.last_name, user.username, hash]);
-            const savedUser = result.rows[0];
             conn.release();
-            console.log(savedUser);
-            return savedUser;
+            return result.rows[0];
         } catch (error) {
-            throw new Error(`Cannot add user: ${error}`);
+            throw new Error(`Cannot create user: ${error}`);
         }
     }
 
