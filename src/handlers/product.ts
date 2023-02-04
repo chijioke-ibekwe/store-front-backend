@@ -7,9 +7,10 @@ const productStore = new ProductStore();
 const index = async (req: Request, res: Response) => {
     try {
         let category = req.query.category;
+        console.log(category);
         let products: Product[];
 
-        if(category === null){
+        if(category === undefined || category === null){
             products = await productStore.findAll();
         } else {
             products = await productStore.findByCategory((category as unknown) as ProductCategory)

@@ -16,7 +16,7 @@ export type User = {
 }
 
 export class UserStore {
-    async findAll(): Promise<{id: number, first_name: string, last_name: string, username: string}[]> {
+    async findAll(): Promise<User[]> {
         try {
             const conn = await Client.connect();
             const sql = 'SELECT * FROM users';
@@ -28,10 +28,10 @@ export class UserStore {
         }
     }
 
-    async findById(id: number): Promise<{id: number, first_name: string, last_name: string, username: string}> {
+    async findById(id: number): Promise<User> {
         try {
             const conn = await Client.connect();
-            const sql = 'SELECT * FROM products WHERE id = ($1)';
+            const sql = 'SELECT * FROM users WHERE id = ($1)';
             const result = await conn.query(sql, [id]);
             conn.release();
             return result.rows[0];
@@ -59,19 +59,23 @@ export class UserStore {
     }
 
     async authenticate(username: string, password: string): Promise<string | null> {
-        const conn = await Client.connect();
-        const sql = 'SELECT * FROM users WHERE username = ($1)';
-
-        const result = await conn.query(sql, [username]);
-
-        if(result.rows.length) {
-            const user: User = result.rows[0];
-
-            if(bcrypt.compareSync(password + pepper, user.password)){
-                return jwt.sign({id: user.id, username: user.username}, tokenSecret);
+        try {
+            const conn = await Client.connect();
+            const sql = 'SELECT * FROM users WHERE username = ($1)';
+    
+            const result = await conn.query(sql, [username]);
+    
+            if(result.rows.length) {
+                const user: User = result.rows[0];
+    
+                if(bcrypt.compareSync(password + pepper, user.password)){
+                    return jwt.sign({id: user.id, username: user.username}, tokenSecret);
+                }
             }
+    
+            return null;
+        } catch (error) {
+            throw new Error(`Authentication failed: ${error}`);
         }
-
-        return null;
     }
 }

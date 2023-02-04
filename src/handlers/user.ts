@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { User, UserStore } from '../models/user';
+import verifyAuthToken from './token_verifier';
 
 const userStore = new UserStore();
 
@@ -7,6 +8,18 @@ const index = async (_req: Request, res: Response) => {
     try {
         const users = await userStore.findAll();
         res.json(users);
+    } catch (error) {
+        res.status(500);
+        res.json(error);
+    }
+}
+
+const show = async (req: Request, res: Response) => {
+    try {
+        const userId = Number(req.params.userId);
+        const user = await userStore.findById(userId);
+        console.log(user)
+        res.json(user);
     } catch (error) {
         res.status(500);
         res.json(error);
@@ -31,19 +44,25 @@ const create = async (req: Request, res: Response) => {
 }
 
 const authenticate = async (req: Request, res: Response) => {
-    const accessToken: string | null = await userStore.authenticate(req.body.username, req.body.password);
+    try {
+        const accessToken: string | null = await userStore.authenticate(req.body.username, req.body.password);
 
-    if(accessToken === null){
-        res.status(401);
-        res.json({message: "Invalid username or password"});
+        if(accessToken === null){
+            res.status(400);
+            res.json({message: "Invalid username or password"});
+        }
+
+        res.json({access_token: accessToken});
+    } catch (error) {
+        res.status(500);
+        res.json(error);
     }
-
-    res.json({access_token: accessToken});
 }
 
 
 const user_routes = (app: express.Application) => {
-    app.get('/users', index);
+    app.get('/users', verifyAuthToken, index);
+    app.get('/users/:userId', verifyAuthToken, show);
     app.post('/users', create);
     app.post('/users/authenticate', authenticate);
 }
