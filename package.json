@@ -29,9 +29,11 @@
     "@types/jasmine": "^3.6.3",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/pg": "^7.14.7",
+    "@types/supertest": "^2.0.12",
     "jasmine": "^3.6.4",
     "jasmine-spec-reporter": "^7.0.0",
     "jasmine-ts": "^0.3.0",
+    "supertest": "^6.3.3",
     "ts-node": "^10.9.1",
     "tsc-watch": "^4.2.9"
   }

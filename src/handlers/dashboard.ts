@@ -5,6 +5,7 @@ const dashboard = new DashboardQueries();
 
 const topFiveMostPopularProducts = async (_req: Request, res: Response) => {
     try{
+        console.log("started");
         const products = await dashboard.topFiveMostPopularProducts();
         res.json(products);
     } catch (error){
@@ -15,7 +16,7 @@ const topFiveMostPopularProducts = async (_req: Request, res: Response) => {
 }
 
 const dashboard_routes = (app: express.Application) => {
-    app.get('/product/most-popular', topFiveMostPopularProducts);
+    app.get('/products/most-popular', topFiveMostPopularProducts);
 }
 
 export default dashboard_routes;

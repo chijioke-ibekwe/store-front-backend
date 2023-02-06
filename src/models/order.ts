@@ -13,7 +13,7 @@ export type Order = {
     id: number;
     products: OrderProduct[];
     user_id: number | null;
-    status: string;
+    status: OrderStatus;
 }
 
 export interface AddProductDTO {
@@ -23,7 +23,7 @@ export interface AddProductDTO {
 }
 
 export class OrderStore {
-    async findMyActiveOrder(userId: number): Promise<Order> {
+    async findMyActiveOrder(userId: number): Promise<{id: number, products: OrderProduct[], user_id: number, status: string}> {
         try {
             const conn = await Client.connect();
 
@@ -39,7 +39,7 @@ export class OrderStore {
                 return newOrder;
             }
 
-            let order = result_one.rows[0] as Order;
+            let order = result_one.rows[0] as {id: number, products: OrderProduct[], user_id: number, status: string};
             const sql_two = 'SELECT p.id, op.quantity FROM products p JOIN orders_products op ON p.id = op.product_id WHERE op.order_id = ($1)';
             const result_two = await conn.query(sql_two, [order.id]);
             order.products = result_two.rows;
@@ -51,7 +51,7 @@ export class OrderStore {
         }
     }
 
-    async addProduct(userId: number, dto: AddProductDTO): Promise<Order> {
+    async addProduct(userId: number, dto: AddProductDTO): Promise<{id: number, products: OrderProduct[], user_id: number, status: string}> {
         try {
             const conn = await Client.connect();
 
@@ -62,7 +62,7 @@ export class OrderStore {
                 throw new Error(`Order not found`);
             }
 
-            const order = (result.rows[0] as unknown) as Order;
+            const order = (result.rows[0] as unknown) as {id: number, products: OrderProduct[], user_id: number, status: string};
 
             if (order.status != 'ACTIVE'){
                 throw new Error(`Order with id ${dto.order_id} is not active`);
@@ -81,7 +81,7 @@ export class OrderStore {
 
             const sql_two = 'SELECT * FROM orders WHERE id = ($1)';
             const result_two = await conn.query(sql_two, [dto.order_id]);
-            let order = result_two.rows[0] as Order;
+            let order = result_two.rows[0] as {id: number, products: OrderProduct[], user_id: number, status: string};
 
             const sql_three = 'SELECT p.id, op.quantity FROM products p JOIN orders_products op ON p.id = op.product_id WHERE op.order_id = ($1)';
             const result_three = await conn.query(sql_three, [order.id]);
@@ -95,7 +95,7 @@ export class OrderStore {
         }
     }
 
-    async findMyCompletedOrders(userId: number): Promise<Order[]> {
+    async findMyCompletedOrders(userId: number): Promise<{id: number, products: OrderProduct[], user_id: number, status: string}[]> {
         try {
             const conn = await Client.connect();
 
@@ -119,7 +119,7 @@ export class OrderStore {
         }
     }
 
-    private async save(userId: number): Promise<Order> {
+    private async save(userId: number): Promise<{id: number, products: OrderProduct[], user_id: number, status: string}> {
         try {
             const conn = await Client.connect();
 

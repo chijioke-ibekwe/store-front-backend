@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { OrderStatus, Order, OrderStore, AddProductDTO } from '../models/order';
+import { OrderStore, AddProductDTO } from '../models/order';
 import jwt from 'jsonwebtoken';
 import verifyAuthToken from './token_verifier';
 
@@ -29,7 +29,7 @@ const findMyActiveOrder = async (req: Request, res: Response) => {
     try {
         const userId = getUserId(req);
 
-        const order : Order = await orderStore.findMyActiveOrder(userId);
+        const order = await orderStore.findMyActiveOrder(userId);
         res.json(order);
     } catch (error) {
         res.status(500);
@@ -41,7 +41,7 @@ const findMyCompletedOrders = async (req: Request, res: Response) => {
     try {
         const userId = getUserId(req);
 
-        const orders : Order[] = await orderStore.findMyCompletedOrders(userId);
+        const orders = await orderStore.findMyCompletedOrders(userId);
         res.json(orders);
     } catch (error) {
         res.status(500);
@@ -59,7 +59,7 @@ const addProduct = async (req: Request, res: Response) => {
             product_id: req.body.productId
         }
 
-        const order : Order = await orderStore.addProduct(userId, dto);
+        const order = await orderStore.addProduct(userId, dto);
         res.json(order);
     } catch (error){
         res.status(500);

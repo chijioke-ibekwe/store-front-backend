@@ -8,7 +8,7 @@ const index = async (req: Request, res: Response) => {
     try {
         let category = req.query.category;
         console.log(category);
-        let products: Product[];
+        let products: {id: number, name: string, price: string, category: string}[];
 
         if(category === undefined || category === null){
             products = await productStore.findAll();
@@ -26,7 +26,7 @@ const index = async (req: Request, res: Response) => {
 const show = async (req: Request, res: Response) => {
     try {
         const productId = Number(req.params.productId);
-        const product: Product = await productStore.findById(productId);
+        const product = await productStore.findById(productId);
         res.json(product);
     } catch (error) {
         res.status(500);
@@ -42,7 +42,7 @@ const create = async (req: Request, res: Response) => {
             category: req.body.category as ProductCategory
         }
 
-        const savedProduct : Product = await productStore.save(product);
+        const savedProduct = await productStore.save(product);
         res.json(savedProduct);
     } catch (error){
         res.status(500);

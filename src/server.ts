@@ -14,10 +14,10 @@ app.get('/', function (_req: Request, res: Response) {
     res.send('Hello World!')
 })
 
+dashboard_routes(app);
 user_routes(app);
 order_routes(app);
 product_routes(app);
-dashboard_routes(app);
 
 app.listen(3000, function () {
     console.log(`starting app on: ${address}`)

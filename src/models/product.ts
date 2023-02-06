@@ -12,7 +12,7 @@ export type Product = {
 }
 
 export class ProductStore {
-    async findAll(): Promise<Product[]> {
+    async findAll(): Promise<{id: number, name: string, price: string, category: string}[]> {
         try {
             const conn = await Client.connect();
             const sql = 'SELECT * FROM products';
@@ -24,7 +24,7 @@ export class ProductStore {
         }
     }
 
-    async findById(id: number): Promise<Product> {
+    async findById(id: number): Promise<{id: number, name: string, price: string, category: string}> {
         try {
             const conn = await Client.connect();
             const sql = 'SELECT * FROM products WHERE id = ($1)';
@@ -36,20 +36,20 @@ export class ProductStore {
         }
     }
 
-    async save(product: Product): Promise<Product> {
+    async save(product: Product): Promise<{id: number, name: string, price: string, category: string}> {
         try {
             const conn = await Client.connect();
             const sql = 'INSERT INTO products (name, price, category) VALUES ($1, $2, $3) RETURNING *';
 
             const result = await conn.query(sql, [product.name, product.price, product.category]);
             conn.release();
-            return result.rows[0];;
+            return result.rows[0];
         } catch (error) {
             throw new Error(`Cannot add product: ${error}`);
         }
     }
 
-    async findByCategory(category: ProductCategory): Promise<Product[]> {
+    async findByCategory(category: ProductCategory): Promise<{id: number, name: string, price: string, category: string}[]> {
         try {
             const conn = await Client.connect();
             const sql = 'SELECT * FROM products WHERE category = ($1)';
