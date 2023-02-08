@@ -8,7 +8,7 @@ describe('User Model Tests', () => {
     beforeAll(() => {
         return Client.connect().then(conn => {
             const sql = "INSERT INTO users (id, first_name, last_name, username, password) VALUES " + 
-            "(2, 'John', 'Doe', 'john.doe@gmail.com', '$2b$10$ValaFNoiMPawmmWwxTGdy..MeYkBEKRvUXQFFYa0NF35z0dRyO8u2')";
+            "(5, 'John', 'Doe', 'john.doe@gmail.com', '$2b$10$ValaFNoiMPawmmWwxTGdy..MeYkBEKRvUXQFFYa0NF35z0dRyO8u2')";
             return conn.query(sql).then(() => {
                 conn.release();
             });
@@ -41,8 +41,8 @@ describe('User Model Tests', () => {
 
     it('should get a single user from the database', () => {
 
-        return userStore.findById(2).then(result => {
-            expect(result.id).toEqual(2);
+        return userStore.findById(5).then(result => {
+            expect(result.id).toEqual(5);
             expect(result.first_name).toEqual('John');
             expect(result.last_name).toEqual('Doe');
             expect(result.username).toEqual('john.doe@gmail.com');
