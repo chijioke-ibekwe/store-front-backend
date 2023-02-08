@@ -4,6 +4,8 @@ import Client from '../../database';
 const orderStore = new OrderStore();
 
 describe('Order Model Tests', () => {
+    let active_order_id: number;
+
     beforeAll(() => {
         return Client.connect().then(conn => {
             const sql_one = "INSERT INTO products (id, name, price, category) VALUES (1, 'Dell Alienware Laptop', 1500000, 'TECHNOLOGY')";
@@ -25,6 +27,8 @@ describe('Order Model Tests', () => {
             expect(result.products).toEqual([]);
             expect(result.status).toEqual('ACTIVE');
             expect(result.user_id).toEqual(1);
+
+            active_order_id = result.id;
         })
     })
 
@@ -37,12 +41,11 @@ describe('Order Model Tests', () => {
     it('should add a product to an active order', () => {
         const dto: AddProductDTO= {
             quantity: 2,
-            order_id: 1,
+            order_id: active_order_id,
             product_id: 1
         }
 
         return orderStore.addProduct(1, dto).then(result => {
-            expect(result.id).toEqual(1);
             expect(result.products).toEqual([{id: 1, quantity: 2}]);
             expect(result.status).toEqual('ACTIVE');
             expect(result.user_id).toEqual(1);
