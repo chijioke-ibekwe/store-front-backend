@@ -5,20 +5,42 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## API Endpoints
 #### Products
-- Index 
-- Show
-- Create [token required]
-- [OPTIONAL] Top 5 most popular products 
-- [OPTIONAL] Products by category (args: product category)
+- Index `/products` [GET]
+- Show `/products/<productId>` [GET]
+- Create [token required] `/products` [POST]
+```json
+{
+    "name": "IPhone 14",
+    "price": 500000,
+    "category": "TECHNOLOGY"
+}
+```
+- [OPTIONAL] Top 5 most popular products `/products/most-popular` [GET]
+- [OPTIONAL] Products by category (args: product category) `/products?category=<categoryName>` [GET] (category name can be 'TECHNOLOGY', 'CLOTHING', STATIONARY, FOOD_ITEM)
 
 #### Users
-- Index [token required]
-- Show [token required]
-- Create N[token required]
+- Index [token required] `/users` [GET]
+- Show [token required] `/users/<userId>` [GET]
+- Create N[token required] `/users` [POST]
+```json
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "username": "john.doe",
+    "password": "password"
+}
+```
+- Authenticate `/users/authenticate` [POST]
+```json
+{
+    "username": "john.doe",
+    "password": "password"
+}
+```
 
 #### Orders
-- Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
+- Current Order by user (args: user id)[token required] `/orders/active` [GET]
+- [OPTIONAL] Completed Orders by user (args: user id)[token required] `/orders/completed` [GET]
 
 ## Data Shapes
 #### Product
@@ -40,3 +62,8 @@ These are the notes from a meeting with the frontend developer that describe wha
 - user_id
 - status of order (active or complete)
 
+## Database Tables
+- users (id:serial, first_name:varchar, last_name:varchar, username:varchar, password:varchar)
+- orders (id:serial, status:varchar, user_id:integer[foreign key - references users table id])
+- products (id:serial, name:varchar, price:numeric, category:varchar)
+- orders_products (id:serial, quantity:integer, order_id:integer[foreign key - references orders table id], product_id:integer[foreign key - references products table id])
