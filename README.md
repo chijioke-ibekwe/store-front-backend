@@ -3,7 +3,7 @@ RESTful APIs for an e-commerce platform built using Node.js, Express and TypeScr
 
 ## Getting Started
 ### Prerequisites
-You need the following installed on your machine to run the application.
+You need the following installed on your machine to run the application.  
 NB: The outlined versions are the tested ones. Other versions could also work.
 1. Node v18.12.1
 2. Docker
@@ -39,7 +39,7 @@ docker-compose up
 docker exec -it node-postgres psql -U postgres
 ```
 
-- Create the store-front and store-front-test databases for the application using;
+- Within the postgres database, create the store-front and store-front-test databases for the application using;
 ```bash
 CREATE DATABASE store-front;
 CREATE DATABASE store-front-test;
@@ -47,7 +47,7 @@ CREATE DATABASE store-front-test;
 
 - Run the `\q` to quit the postgres terminal and `CTRL D` to exit the container environment;
 
-- Run the tests using the commands;
+- Run the tests using the commands;  
 (if on a windows)
 ```bash
 npm run test
