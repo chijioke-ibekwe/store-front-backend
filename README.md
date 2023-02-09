@@ -62,7 +62,7 @@ npm run test2
 db-migrate up
 ```
 
-- Transpile the typescript code and start up the server using the command;
+- Transpile the typescript code and start up the server using the command. Application is set up to run on port 3000;
 ```bash
 npm run watch
 ```
