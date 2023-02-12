@@ -6,8 +6,8 @@ const request = supertest(app);
 
 describe('User Endpoint Tests', () => {
 
-  it('should return a 401 response since /users endpoint requires an access token', () => {
-    return request.get('/users').then(response => {
+  it('should return a 401 response since /api/v1/users endpoint requires an access token', () => {
+    return request.get('/api/v1/users').then(response => {
         expect(response.status).toBe(401);
         expect(response.body.message).toEqual(
           'You are not authorised to perform this operation'
@@ -15,8 +15,8 @@ describe('User Endpoint Tests', () => {
     });
   });
 
-  it('should return a 401 response since /users/:userId endpoint requires an access token', () => {
-    return request.get('/users').then(response => {
+  it('should return a 401 response since /api/v1/users/:userId endpoint requires an access token', () => {
+    return request.get('/api/v1/users').then(response => {
         expect(response.status).toBe(401);
         expect(response.body.message).toEqual(
           'You are not authorised to perform this operation'
@@ -25,7 +25,7 @@ describe('User Endpoint Tests', () => {
   });
 
   it('should successfully create a user', () => {
-    return request.post('/users')
+    return request.post('/api/v1/users')
     .send({firstName: 'Tony', lastName: 'Daniel', username: 't.dane@gmail.com', password: 'password'}).then(response => {
         expect(response.status).toBe(200);
         expect(response.body.first_name).toEqual('Tony');
@@ -34,7 +34,7 @@ describe('User Endpoint Tests', () => {
   });
 
   it('should successfully authenticate a user', () => {
-    return request.post('/users/authenticate')
+    return request.post('/api/v1/users/authenticate')
     .send({username: 't.dane@gmail.com', password: 'password'}).then(response => {
         expect(response.status).toBe(200);
         expect(response.body.access_token).not.toBeNull();

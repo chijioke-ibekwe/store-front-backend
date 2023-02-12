@@ -18,7 +18,7 @@ describe('Product Endpoint Tests', () => {
     })
 
     it('should return all products in json', () => {
-        return request.get('/products').then(response => {
+        return request.get('/api/v1/products').then(response => {
             expect(response.status).toBe(200);
             expect(response.body.length).toEqual(1);
             expect(response.headers['content-type']).toEqual('application/json; charset=utf-8');
@@ -26,7 +26,7 @@ describe('Product Endpoint Tests', () => {
     });
 
     it('should return a single product in json', () => {
-        return request.get('/products/7').then(response => {
+        return request.get('/api/v1/products/7').then(response => {
             expect(response.status).toBe(200);
             expect(response.body.name).toEqual('Gucci T-Shirt');
             expect(response.headers['content-type']).toEqual('application/json; charset=utf-8');
@@ -34,7 +34,7 @@ describe('Product Endpoint Tests', () => {
     });
 
     it('should return a 401 response since /products post endpoint requires an access token', () => {
-        return request.post('/products')
+        return request.post('/api/v1/products')
         .send({name: 'Airpods', price: 120000, category: 'TECHNOLOGY'}).then(response => {
             expect(response.status).toBe(401);
             expect(response.body.message).toEqual(

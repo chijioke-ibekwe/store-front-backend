@@ -28,7 +28,7 @@ describe('Dashboard Endpoint Test', () => {
 
     it('should return a maximum of 5 most popular products on the app', () => {
 
-        return request.get('/products/most-popular').then(response => {
+        return request.get('/api/v1/products/most-popular').then(response => {
             expect(response.status).toBe(200);
             expect(response.body[0].id).toEqual(20);
         });

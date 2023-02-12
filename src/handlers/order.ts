@@ -69,9 +69,9 @@ const addProduct = async (req: Request, res: Response) => {
 }
 
 const order_routes = (app: express.Application) => {
-    app.get('/orders/active', verifyAuthToken, findMyActiveOrder);
-    app.get('/orders/completed', verifyAuthToken, findMyCompletedOrders);
-    app.post('/orders/:orderId/products', verifyAuthToken, addProduct);
+    app.get('/api/v1/orders/active', verifyAuthToken, findMyActiveOrder);
+    app.get('/api/v1/orders/completed', verifyAuthToken, findMyCompletedOrders);
+    app.post('/api/v1/orders/:orderId/products', verifyAuthToken, addProduct);
 }
 
 export default order_routes;

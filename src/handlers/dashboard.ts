@@ -16,7 +16,7 @@ const topFiveMostPopularProducts = async (_req: Request, res: Response) => {
 }
 
 const dashboard_routes = (app: express.Application) => {
-    app.get('/products/most-popular', topFiveMostPopularProducts);
+    app.get('/api/v1/products/most-popular', topFiveMostPopularProducts);
 }
 
 export default dashboard_routes;

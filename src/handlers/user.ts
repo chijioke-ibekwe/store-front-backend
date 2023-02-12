@@ -61,10 +61,10 @@ const authenticate = async (req: Request, res: Response) => {
 
 
 const user_routes = (app: express.Application) => {
-    app.get('/users', verifyAuthToken, index);
-    app.get('/users/:userId', verifyAuthToken, show);
-    app.post('/users', create);
-    app.post('/users/authenticate', authenticate);
+    app.get('/api/v1/users', verifyAuthToken, index);
+    app.get('/api/v1/users/:userId', verifyAuthToken, show);
+    app.post('/api/v1/users', create);
+    app.post('/api/v1/users/authenticate', authenticate);
 }
 
 export default user_routes;

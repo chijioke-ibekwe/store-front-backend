@@ -53,9 +53,9 @@ const create = async (req: Request, res: Response) => {
 
 
 const product_routes = (app: express.Application) => {
-    app.get('/products', index);
-    app.get('/products/:productId', show);
-    app.post('/products', verifyAuthToken, create);
+    app.get('/api/v1/products', index);
+    app.get('/api/v1/products/:productId', show);
+    app.post('/api/v1/products', verifyAuthToken, create);
 }
 
 export default product_routes;

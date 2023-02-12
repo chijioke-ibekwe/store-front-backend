@@ -25,7 +25,7 @@ describe('Order Endpoint Tests', () => {
     })
 
     it('should return an active order to the user', () => {
-        return request.get('/orders/active').set('authorization', token).then(response => {
+        return request.get('/api/v1/orders/active').set('authorization', token).then(response => {
             expect(response.status).toBe(200);
             expect(response.body.user_id).toEqual(1);
 
@@ -34,13 +34,13 @@ describe('Order Endpoint Tests', () => {
     });
 
     it('should return a 401 response since /orders/completed endpoint requires an access token and none is provided', () => {
-        return request.get('/orders/completed').then(response => {
+        return request.get('/api/v1/orders/completed').then(response => {
             expect(response.status).toBe(401);
         });
     });
 
     it('should return a 401 response since /orders/completed endpoint requires an access token and none is provided', () => {
-        return request.post(`/orders/1/products`)
+        return request.post(`/api/v1/orders/1/products`)
         .send({quantity: 2, product_id: 15}).then(response => {
             expect(response.status).toBe(401);
         });
