@@ -29,7 +29,7 @@ git clone https://github.com/<your-git-username>/store-front-backend.git
 npm install
 ```
 
-- Run the docker compose file to setup a postgres database in a container using. Database is set up to run on port 5430:
+- Run the docker compose file to setup a postgres database in a container using the command below (database is set up to run on port 5430)
 ```bash
 docker-compose up
 ```
