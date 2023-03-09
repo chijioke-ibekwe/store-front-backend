@@ -185,7 +185,7 @@ The application contains the following endpoints:
 
 7. `GET '/api/v1/products/<productId>'`
 
-- Fetches a single product on the app.
+- Fetches a single product on the app by the id.
 
 ```json
 {
@@ -198,14 +198,66 @@ The application contains the following endpoints:
 
 8. `GET '/api/v1/orders/active'`
 
-- Fetches a user's active order.
+- Fetches a user's active order. This API is protected, and requires a valid bearer token in the authorization header of the request.
 
 ```json
 {
     "id": 1,
-    "name": "IPhone 13 Pro Max",
-    "price": "520000.00",
-    "category": "TECHNOLOGY"
+    "status": "ACTIVE",
+    "user_id": 1,
+    "products": [
+        {
+            "id": 1,
+            "quantity": 3
+        }
+    ]
+}
+```
+
+9. `GET '/api/v1/orders/completed'`
+
+- Fetches a user's completed orders. This API is protected, and requires a valid bearer token in the authorization header of the request.
+
+```json
+[
+    {
+        "id": 1,
+        "status": "COMPLETED",
+        "user_id": 1,
+        "products": [
+            {
+                "id": 1,
+                "quantity": 2
+            }
+        ]
+    }
+]
+```
+
+10. `POST '/api/v1/orders/<orderId>/products'`
+
+- Adds a product to a user's active order. It takes the active order's id as a path variable. This API is protected, and requires a valid bearer token in the authorization header of the request.
+- Body: A JSON of the product id and quantity.
+
+```json
+{
+    "quantity": 3,
+    "productId": 1
+}
+```
+- Returns: A JSON of the active order. 
+
+```json
+{
+    "id": 1,
+    "status": "ACTIVE",
+    "user_id": 1,
+    "products": [
+        {
+            "id": 1,
+            "quantity": 3
+        }
+    ]
 }
 ```
 
