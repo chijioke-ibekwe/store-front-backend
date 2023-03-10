@@ -29,7 +29,7 @@ git clone https://github.com/<your-git-username>/store-front-backend.git
 npm install
 ```
 
-- Run the docker compose file to setup a postgres database in a container using the command below (database is set up to run on port 5430)
+- Run the docker compose file to setup a postgres database in a container using. Database is set up to run on port 5430:
 ```bash
 docker-compose up
 ```
@@ -65,6 +65,148 @@ db-migrate up
 - Transpile the typescript code and start up the server using the command. Application is set up to run on port 3000;
 ```bash
 npm run watch
+```
+## API Documentation
+
+The application contains the following endpoints:
+
+1. `POST '/api/v1/users'`
+
+- Registers a new user on the application.
+- Body: A JSON containing the details of the user as shown below:
+
+```json
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "username": "john.doe@gmail.com",
+    "password": "password"
+}
+```
+- Returns: A JSON of the registered user's details. 
+
+```json
+{
+    "id": 1,
+    "firstName": "John",
+    "lastName": "Doe",
+    "username": "john.doe@gmail.com",
+    "password": "encrypted_password"
+}
+```
+
+2. `POST '/api/v1/users/authenticate'`
+
+- Authenticates a user on the application
+- Body: A JSON of the user's username and password
+
+```json
+{
+    "username": "john.doe@gmail.com",
+    "password": "password"
+}
+```
+- Returns: A JSON of the access token details. 
+
+```json
+{
+    "access_token": "access_token",
+}
+```
+
+3. `GET '/api/v1/users'`
+
+- Fetches all the users on the app. This API is protected, and requires a valid bearer token in the authorization header of the request. 
+
+```json
+[
+    {
+        "id": 1,
+        "firstName": "John",
+        "lastName": "Doe",
+        "username": "john.doe@gmail.com",
+        "password": "encrypted_password"
+    }
+]
+```
+
+4. `GET '/api/v1/users/<userId>'`
+
+- Fetches a single user on the app using the user's id. This API is protected, and requires a valid bearer token in the authorization header of the request. 
+
+```json
+{
+    "id": 1,
+    "firstName": "John",
+    "lastName": "Doe",
+    "username": "john.doe@gmail.com",
+    "password": "encrypted_password"
+}
+```
+
+5. `POST '/api/v1/products'`
+
+- Creates a product on the app. This API is protected, and requires a valid bearer token in the authorization header of the request.
+- Body: A JSON of the product's details
+
+```json
+{
+    "name": "IPhone 13 Pro Max",
+    "price": 520000,
+    "category": "TECHNOLOGY"
+}
+```
+- Returns: A JSON of the created product. 
+
+```json
+{
+    "id": 1,
+    "name": "IPhone 13 Pro Max",
+    "price": "520000.00",
+    "category": "TECHNOLOGY"
+}
+```
+
+
+6. `GET '/api/v1/products'`
+
+- Fetches all the products on the app.
+
+```json
+[
+    {
+        "id": 1,
+        "name": "IPhone 13 Pro Max",
+        "price": "520000.00",
+        "category": "TECHNOLOGY"
+    }
+]
+```
+
+7. `GET '/api/v1/products/<productId>'`
+
+- Fetches a single product on the app.
+
+```json
+{
+    "id": 1,
+    "name": "IPhone 13 Pro Max",
+    "price": "520000.00",
+    "category": "TECHNOLOGY"
+}
+```
+
+8. `GET '/api/v1/orders/active'`
+
+- Fetches a user's active order.
+
+```json
+{
+    "id": 1,
+    "name": "IPhone 13 Pro Max",
+    "price": "520000.00",
+    "category": "TECHNOLOGY"
+}
 ```
 
 ## Author
