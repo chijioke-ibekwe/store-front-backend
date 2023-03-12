@@ -261,6 +261,27 @@ The application contains the following endpoints:
 }
 ```
 
+11. `GET '/api/v1/products/most-popular'`
+
+- Fetches the most popular products on the app.
+
+```json
+[
+    {
+        "id": 1,
+        "name": "IPhone 13 Pro Max",
+        "price": "520000.00",
+        "category": "TECHNOLOGY"
+    },
+        {
+        "id": 2,
+        "name": "Beatz by Dre Headphones",
+        "price": "82000.00",
+        "category": "TECHNOLOGY"
+    }
+]
+```
+
 ## Author
 
 - Chijioke Ibekwe (https://github.com/chijioke-ibekwe)
