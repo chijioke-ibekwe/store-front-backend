@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { OrderStore, AddProductDTO } from '../models/order';
 import jwt from 'jsonwebtoken';
-import verifyAuthToken from './token_verifier';
+import verifyToken from './middleware/token_verifier';
 
 const orderStore = new OrderStore();
 const {TOKEN_SECRET} = process.env;
@@ -69,9 +69,9 @@ const addProduct = async (req: Request, res: Response) => {
 }
 
 const order_routes = (app: express.Application) => {
-    app.get('/api/v1/orders/active', verifyAuthToken, findMyActiveOrder);
-    app.get('/api/v1/orders/completed', verifyAuthToken, findMyCompletedOrders);
-    app.post('/api/v1/orders/:orderId/products', verifyAuthToken, addProduct);
+    app.get('/api/v1/orders/active', verifyToken('role_customer'), findMyActiveOrder);
+    app.get('/api/v1/orders/completed', verifyToken('role_customer'), findMyCompletedOrders);
+    app.post('/api/v1/orders/:orderId/products', verifyToken('role_customer'), addProduct);
 }
 
 export default order_routes;

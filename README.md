@@ -80,7 +80,9 @@ The application contains the following endpoints:
     "firstName": "John",
     "lastName": "Doe",
     "username": "john.doe@gmail.com",
-    "password": "password"
+    "password": "password",
+    "phoneNumber": "+2348055556666",
+    "roleId": 2
 }
 ```
 - Returns: A JSON of the registered user's details. 
@@ -122,10 +124,16 @@ The application contains the following endpoints:
 [
     {
         "id": 1,
-        "firstName": "John",
-        "lastName": "Doe",
+        "first_name": "John",
+        "last_name": "Doe",
         "username": "john.doe@gmail.com",
-        "password": "encrypted_password"
+        "phone_number": "+2348055556666",
+        "verified": false,
+        "role": {
+            "id": 2,
+            "name": "role_customer",
+            "description": "Role for customer users"
+        }
     }
 ]
 ```

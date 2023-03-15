@@ -26,7 +26,8 @@ describe('User Endpoint Tests', () => {
 
   it('should successfully create a user', () => {
     return request.post('/api/v1/users')
-    .send({firstName: 'Tony', lastName: 'Daniel', username: 't.dane@gmail.com', password: 'password'}).then(response => {
+    .send({firstName: 'Tony', lastName: 'Daniel', username: 't.dane@gmail.com', password: 'password', phoneNumber: '+2348033334444', roleId: 1})
+    .then(response => {
         expect(response.status).toBe(200);
         expect(response.body.first_name).toEqual('Tony');
     });
