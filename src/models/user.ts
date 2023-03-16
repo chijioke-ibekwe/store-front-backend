@@ -124,7 +124,7 @@ export class UserStore {
     
                 if(bcrypt.compareSync(password + pepper, user.password)){
                     return jwt.sign({id: user.id, username: user.username, verified: user.verified, role: role}, tokenSecret, 
-                        { expiresIn: '5m' });
+                        { expiresIn: '24h' });
                 }
             }
     

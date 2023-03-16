@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import { RequestStatus, ResponseObject } from '../models/response_object';
 import { Count, User, UserStore } from '../models/user';
 import verifyToken from './middleware/token_verifier';

@@ -12,11 +12,11 @@ export type Product = {
 }
 
 export class ProductStore {
-    async findAll(): Promise<{id: number, name: string, price: string, category: string}[]> {
+    async findAll(limit: number, offset: number): Promise<{id: number, name: string, price: string, category: string}[]> {
         try {
             const conn = await Client.connect();
-            const sql = 'SELECT * FROM products';
-            const result = await conn.query(sql);
+            const sql = 'SELECT * FROM products ORDER BY id LIMIT ($1) OFFSET ($2)';
+            const result = await conn.query(sql, [limit, offset]);
             conn.release();
             return result.rows;
         } catch (error) {
@@ -40,7 +40,6 @@ export class ProductStore {
         try {
             const conn = await Client.connect();
             const sql = 'INSERT INTO products (name, price, category) VALUES ($1, $2, $3) RETURNING *';
-
             const result = await conn.query(sql, [product.name, product.price, product.category]);
             conn.release();
             return result.rows[0];
@@ -49,12 +48,12 @@ export class ProductStore {
         }
     }
 
-    async findByCategory(category: ProductCategory): Promise<{id: number, name: string, price: string, category: string}[]> {
+    async findByCategory(category: ProductCategory, limit: number, offset: number): Promise<{id: number, name: string, price: string, category: string}[]> {
         try {
             const conn = await Client.connect();
-            const sql = 'SELECT * FROM products WHERE category = ($1)';
+            const sql = 'SELECT * FROM products WHERE category = ($1) ORDER BY id LIMIT ($2) OFFSET ($3)';
 
-            const result = await conn.query(sql, [category]);
+            const result = await conn.query(sql, [category, limit, offset]);
             conn.release();
             return result.rows;
         } catch (error) {
